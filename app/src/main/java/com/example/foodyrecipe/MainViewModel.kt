@@ -37,7 +37,8 @@ class MainViewModel @Inject constructor(
                 recipesResponse.value = NetworkResult.Error(message = "Recipes not found.")
             }
         } else {
-            recipesResponse.value = NetworkResult.Error(message = "No Internet Connection")
+            recipesResponse.value =
+                NetworkResult.Error(message = getApplication<Application>().getString(R.string.no_internet_connection))
         }
     }
 
