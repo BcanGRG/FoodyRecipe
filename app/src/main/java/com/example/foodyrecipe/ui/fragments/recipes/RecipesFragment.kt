@@ -37,7 +37,6 @@ class RecipesFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_recipes, container, false)
-        mainViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
         setupRecyclerView()
         requestApiData()
         return mView
