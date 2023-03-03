@@ -6,7 +6,9 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import javax.inject.Inject
 
-class RecipesTypeConverter @Inject constructor(private val gson: Gson) {
+class RecipesTypeConverter {
+
+    private val gson: Gson = Gson()
 
     @TypeConverter
     fun foodRecipeToString(foodRecipe: FoodRecipe): String {
