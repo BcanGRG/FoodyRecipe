@@ -2,6 +2,8 @@ package com.example.foodyrecipe.di
 
 import com.example.foodyrecipe.util.Constants.Companion.BASE_URL
 import com.example.foodyrecipe.data.network.FoodRecipesApi
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,6 +17,9 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
+    @Singleton
+    @Provides
+    fun provideGsonInstance(): Gson = GsonBuilder().create()
 
     @Singleton
     @Provides
