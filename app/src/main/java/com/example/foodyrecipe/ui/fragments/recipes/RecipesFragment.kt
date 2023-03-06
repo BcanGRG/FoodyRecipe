@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.foodyrecipe.viewmodels.MainViewModel
 import com.example.foodyrecipe.R
 import com.example.foodyrecipe.adapters.RecipesAdapter
+import com.example.foodyrecipe.databinding.FragmentRecipesBinding
 import com.example.foodyrecipe.util.NetworkResult
 import com.example.foodyrecipe.util.observeOnce
 import com.example.foodyrecipe.viewmodels.RecipesViewModel
@@ -25,10 +26,12 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class RecipesFragment : Fragment() {
 
+    private var _binding: FragmentRecipesBinding? = null
+    val binding get() = _binding!!
+
     private lateinit var mainViewModel: MainViewModel
     private lateinit var recipesViewModel: RecipesViewModel
     private val mAdapter by lazy { RecipesAdapter() }
-    private lateinit var mView: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +44,10 @@ class RecipesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        mView = inflater.inflate(R.layout.fragment_recipes, container, false)
+        _binding = FragmentRecipesBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = this
+        binding.mainViewModel = mainViewModel
+
         setupRecyclerView()
         readDatabase()
         return mView
