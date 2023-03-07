@@ -50,12 +50,13 @@ class RecipesFragment : Fragment() {
 
         setupRecyclerView()
         readDatabase()
-        return mView
+
+        return binding.root
     }
 
     private fun setupRecyclerView() {
-        mView.recyclerView.adapter = mAdapter
-        mView.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.adapter = mAdapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         showShimmerEffect()
     }
 
@@ -110,10 +111,15 @@ class RecipesFragment : Fragment() {
     }
 
     private fun showShimmerEffect() {
-        mView.recyclerView.showShimmer()
+        binding.recyclerView.showShimmer()
     }
 
     private fun hideShimmerEffect() {
-        mView.recyclerView.hideShimmer()
+        binding.recyclerView.hideShimmer()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }
