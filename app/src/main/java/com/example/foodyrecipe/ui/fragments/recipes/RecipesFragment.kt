@@ -19,6 +19,7 @@ import com.example.foodyrecipe.viewmodels.MainViewModel
 import com.example.foodyrecipe.R
 import com.example.foodyrecipe.adapters.RecipesAdapter
 import com.example.foodyrecipe.databinding.FragmentRecipesBinding
+import com.example.foodyrecipe.util.NetworkListener
 import com.example.foodyrecipe.util.NetworkResult
 import com.example.foodyrecipe.util.observeOnce
 import com.example.foodyrecipe.viewmodels.RecipesViewModel
@@ -37,6 +38,7 @@ class RecipesFragment : Fragment() {
     private lateinit var mainViewModel: MainViewModel
     private lateinit var recipesViewModel: RecipesViewModel
     private val mAdapter by lazy { RecipesAdapter() }
+    private lateinit var networkListener: NetworkListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,8 +58,19 @@ class RecipesFragment : Fragment() {
         setupRecyclerView()
         readDatabase()
 
+        lifecycleScope.launch {
+            networkListener = NetworkListener()
+            networkListener.checkNetworkAvailability(requireContext()).collect {
+                Log.d("alooo", it.toString())
+                recipesViewModel.networkStatus = it
+                recipesViewModel.showNetworkStatus()
+            }
+        }
+
         binding.recipesFab.setOnClickListener {
-            findNavController().navigate(R.id.action_recipesFragment_to_recipesBottomSheet)
+            if (recipesViewModel.networkStatus) {
+                findNavController().navigate(R.id.action_recipesFragment_to_recipesBottomSheet)
+            } else recipesViewModel.showNetworkStatus()
         }
         return binding.root
     }
