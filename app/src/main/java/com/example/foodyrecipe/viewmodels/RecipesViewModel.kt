@@ -1,6 +1,8 @@
 package com.example.foodyrecipe.viewmodels
 
 import android.app.Application
+import android.widget.Toast
+import android.widget.Toast.LENGTH_LONG
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foodyrecipe.data.DataStoreRepository
@@ -28,6 +30,8 @@ class RecipesViewModel @Inject constructor(
 
     private var mealType = DEFAULT_MEAL_TYPE
     private var dietType = DEFAULT_DIET_TYPE
+
+    var networkStatus = false
 
     val readMealAndDietType = dataStoreRepository.readMealAndDietType
     fun saveMealAndDietType(
@@ -59,5 +63,11 @@ class RecipesViewModel @Inject constructor(
         queries[QUERY_FILL_INGREDIENTS] = "true"
 
         return queries
+    }
+
+    fun showNetworkStatus() {
+        if (!networkStatus) {
+            Toast.makeText(getApplication(), "No Internet Connection", LENGTH_LONG).show()
+        }
     }
 }
